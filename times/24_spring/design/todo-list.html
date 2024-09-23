@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- 当输入 todo 项时，按回车键，todo list 增加一项未完成的 todo 记录。
+当点击最顶部 input 旁边的 checkbox 开关，如果是选中状态，所有的 todo 项都需选中，反之亦然。
+当点击某一项 todo 的 checkbox 时，如果是选中状态，该 todo 文字变灰，并且文字带删除中划线。
+底部要实时记录当前还有多少项未完成的 todo list。
+底部三个按钮可分别过滤出不同状态的todo list：「所有」、「未完成」、「已完成」
+可删除当前 todo 项。
+布局、样式大致一致就行，不用太在意样式细节。
+ -->
+
+  <div>
+    <input type="text" id="todo" placeholder="请输入待办事项">
+    <button id="add">添加</button>
+  </div>
+  <div>
+    <input type="checkbox" id="checkAll">全选
+    <ul id="todoList">
+    </ul>
+  </div>
+  <div>
+    <span>未完成：<span id="count">0</span></span>
+    <button id="all">所有</button>
+    <button id="uncompleted">未完成</button>
+    <button id="completed">已完成</button>
+  </div>
+  <script>
+    const todo = document.getElementById('todo')
+    const add = document.getElementById('add')
+    const checkAll = document.getElementById('checkAll')
+    const todoList = document.getElementById('todoList')
+    const count = document.getElementById('count')
+    const all = document.getElementById('all')
+    const uncompleted = document.getElementById('uncompleted')
+    const completed = document.getElementById('completed')
+    let todos = []
+    let tobeRenderedTodos = []
+    add.onclick = function() {
+      const value = todo.value
+      if (!value) return
+      todos.push({
+        value,
+        completed: false
+      })
+      render()
+      todo.value = ''
+    }
+    checkAll.onclick = function() {
+      const checked = checkAll.checked
+      todos = todos.map(todo => {
+        todo.completed = checked
+        return todo
+      })
+      render()
+    }
+    function render() {
+      todoList.innerHTML = ''
+      todos.forEach((todo, index) => {
+        const template = `
+          <li>
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} onchange="todos[${index}].completed = this.checked; render()">
+            <span style="text-decoration: ${todo.completed ? 'line-through' : 'none'}; color: ${todo.completed ? '#ccc' : '#000'}">${todo.value}</span>
+            <button onclick="todos.splice(${index}, 1); render()">删除</button>
+          </li>
+        `
+        return todoList.innerHTML += template
+
+      })
+      count.innerText = todos.filter(todo => !todo.completed).length
+    }
+    all.onclick = function() {
+      render()
+    }
+
+    uncompleted.onclick = function() {
+      const uncompletedTodos = todos.filter(todo => !todo.completed)
+      todoList.innerHTML = ''
+      uncompletedTodos.forEach((todo, index) => {
+        const li = document.createElement('li')
+        const checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.checked = todo.completed
+        checkbox.onchange = function() {
+          todo.completed = checkbox.checked
+          render()
+        }
+        const text = document.createElement('span')
+        text.innerText = todo.value
+        if (todo.completed) {
+          text.style.textDecoration = 'line-through'
+          text.style.color = '#ccc'
+        }
+        const del = document.createElement('button')
+        del.innerText = '删除'
+        del.onclick = function() {
+          todos.splice(index, 1)
+          render()
+        }
+        li.appendChild(checkbox)
+        li.appendChild(text)
+        li.appendChild(del)
+        todoList.appendChild(li)
+      })
+      count.innerText = uncompletedTodos.length
+    }
+
+    completed.onclick = function() {
+      const completedTodos = todos.filter(todo => todo.completed)
+      todoList.innerHTML = ''
+      completedTodos.forEach((todo, index) => {
+        const li = document.createElement('li')
+        const checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.checked = todo.completed
+        checkbox.onchange = function() {
+          todo.completed = checkbox.checked
+          render()
+        }
+        const text = document.createElement('span')
+        text.innerText = todo.value
+        if (todo.completed) {
+          text.style.textDecoration = 'line-through'
+          text.style.color = '#ccc'
+        }
+        const del = document.createElement('button')
+        del.innerText = '删除'
+        del.onclick = function() {
+          todos.splice(index, 1)
+          render()
+        }
+        li.appendChild(checkbox)
+        li.appendChild(text)
+        li.appendChild(del)
+        todoList.appendChild(li)
+      })
+      count.innerText = completedTodos.length
+    }
+
+  </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!-- 简答题
+有一个HTML文档，其中包含一个div元该元素具有class="my-box"。你的任务王下列代码中编写CSS代码来实现以下样式求:
+I.盒子的宽度为300px，高度为200px。2.盒子的背景色为浅蓝色(#ADD8E6) 。
+3.盒子的边框为2px宽的实线，颜色为深蓝色(#O0008B)。
+1.盒子内的文本颜色为白色(#FFFFFF) ，字体大小为16px，并且文本居中显示(水平和垂直都居中)。
+5.当鼠标悬停在盒子上时，盒子的背景色应变为深蓝色(#00008B)，并且边框颜色变为浅蓝色(#ADD8E6)。
+拉:
+·编写CSS代码来实现上述样式要求。将CSS代码嵌入到HTML文档的<style>标签中。
+提供一个简单的HTML结构，其中包含一个具有class="my-box"的div元素，并在其中添加一些文本内容。
+5
+ML样例: -->
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS</title>
+  <style>
+    .my-box {
+      width: 300px;
+      height: 200px;
+      background-color: #ADD8E6;
+      border: 2px solid #00008B;
+      color: #FFFFFF;
+      font-size: 16px;
+      text-align: center;
+      line-height: 200px;
+    }
+    .my-box:hover {
+      background-color: #00008B;
+      border-color: #ADD8E6;
+    }
+  </style>
+</head>
+<body>
+  <div class="my-box">欢迎来到安硕信息</div>
+</body>
+</html>
